@@ -1,0 +1,123 @@
+Create a table called Employee with the following Columns  and perform the following operations:-
+------------------------------------------------------------------------------------------------------------
+
+EmployeeID    
+EmployeeName   
+EmployeeAddress : 
+DOB
+DOJ
+Salary
+
+
+a.) Insert five records
+
+b) Retrieve all the records
+
+
+c) Retrieve the Employee name whose salary is greater than 20000
+
+d) Retrieve the Employee name whose address contains 'a' or 'p' or 'r'  as the last character
+ 
+e) Increase the Salary of all the Employee by 20%
+
+f) Delete all the employee records whose salary is less than 5000
+
+Solution:
+a)
+CREATE TABLE Employee
+ ( EmployeeID varchar(10) CONSTRAINT idconstraint PRIMARY KEY,
+EmployeeName varchar(20),
+EmployeeAddress varchar(20),
+ DOB date,
+ DOJ date,
+ Salary number(10)
+  );
+
+b)
+SQL> INSERT INTO Employee values('1', 'Anju', 'Bangalore',to_date('1996/02/03','yyyy/mm/dd'),to_date('2018-08-13','yy/mm/dd'),10000);
+
+SQL> INSERT INTO Employee values('2', 'Meena', 'Chennai',to_date('1996/10/05','yyyy/mm/dd'),to_date('2018-08-13','yy/mm/dd'),15000);
+
+SQL> INSERT INTO Employee values('3', 'Rita', 'Chennai',to_date('1996/10/15','yyyy/mm/dd'),to_date('2018-08-13','yy/mm/dd'),30000);
+
+SQL> INSERT INTO Employee values('4', 'Abhi', 'Mumbai',to_date('1996/10/15','yyyy/mm/dd'),to_date('2018-08-13','yy/mm/dd'),35000);
+
+SQL> INSERT INTO Employee values('5', 'Hari', 'Mumbai',to_date('1996/8/15','yyyy/mm/dd'),to_date('2018-08-13','yy/mm/dd'),12000);
+
+SQL> SELECT * FROM Employee;
+
+EMPLOYEEID EMPLOYEENAME         EMPLOYEEADDRESS      DOB       DOJ
+---------- -------------------- -------------------- --------- ---------
+    SALARY
+----------
+1          Anju                 Bangalore            03-FEB-96 13-AUG-18
+     10000
+
+2          Meena                Chennai              05-OCT-96 13-AUG-18
+     15000
+
+3          Rita                 Chennai              15-OCT-96 13-AUG-18
+     30000
+
+
+EMPLOYEEID EMPLOYEENAME         EMPLOYEEADDRESS      DOB       DOJ
+---------- -------------------- -------------------- --------- ---------
+    SALARY
+----------
+4          Abhi                 Mumbai               15-OCT-96 13-AUG-18
+     35000
+
+5          Hari                 Mumbai               15-AUG-96 13-AUG-18
+     12000
+
+c)
+SQL> SELECT EmployeeName FROM Employee
+  2  WHERE salary>20000;
+
+EMPLOYEENAME
+--------------------
+Rita
+Abhi
+
+d)
+ SELECT EmployeeName FROM Employee
+  2  WHERE EmployeeAddress LIKE'%a' or EmployeeAddress LIKE '%p' or EmployeeAddress LIKE '%r';
+
+no rows selected
+
+e)
+SQL> UPDATE Employee
+  2  SET salary = salary*1.2;
+
+5 rows updated.
+
+SQL> SELECT * FROM Employee;
+
+EMPLOYEEID EMPLOYEENAME         EMPLOYEEADDRESS      DOB       DOJ
+---------- -------------------- -------------------- --------- ---------
+    SALARY
+----------
+1          Anju                 Bangalore            03-FEB-96 13-AUG-18
+     12000
+
+2          Meena                Chennai              05-OCT-96 13-AUG-18
+     18000
+
+3          Rita                 Chennai              15-OCT-96 13-AUG-18
+     36000
+
+
+EMPLOYEEID EMPLOYEENAME         EMPLOYEEADDRESS      DOB       DOJ
+---------- -------------------- -------------------- --------- ---------
+    SALARY
+----------
+4          Abhi                 Mumbai               15-OCT-96 13-AUG-18
+     42000
+
+5          Hari                 Mumbai               15-AUG-96 13-AUG-18
+     14400
+
+f)
+
+SQL> DELETE FROM Employee
+  2  WHERE salary <5000;

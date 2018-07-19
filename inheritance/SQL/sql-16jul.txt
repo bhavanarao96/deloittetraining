@@ -1,0 +1,111 @@
+create table student
+  2  (
+  3  sid char(5),
+  4  sname varchar(20),
+  5  dob date,
+  6  doj date);
+INSERT INTO student VALUES('1','Arun',to_date('1996/02/03','yyyy/mm/dd'),to_date('2018-08-13','yyyy/mm/dd'));
+INSERT INTO student VALUES('2','Manu',to_date('1997/05/30','yyyy/mm/dd'),to_date('2018-08-13','yyyy/mm/dd'));
+INSERT INTO student VALUES('3','Anand',to_date('1997/01/01','yyyy/mm/dd'),to_date('2018-08-13','yyyy/mm/dd'));
+SELECT MONTHS_BETWEEN(doj,dob)/12 from student;
+
+/*age*/
+select months_between(sysdate,dob)/12 from student;
+
+select * from student_t;
+
+ROLL                 NAME                 ADDRESS                   MARKS
+-------------------- -------------------- -------------------- ----------
+1                    Tufail               Chennai
+2                    Amit                 Chennai
+3                    Tarun                Chennai                      98
+4                    Vinay                Chennai                       5
+
+ select nvl(marks,0) from student_t;
+
+NVL(MARKS,0)
+------------
+           0
+           0
+          98
+           5
+
+SQL> select NVL2(marks, roll*3,roll*5) from student_t;
+
+NVL2(MARKS,ROLL*3,ROLL*5)
+-------------------------
+                        5
+                       10
+                        9
+                       12
+
+ select roll,coalesce(marks,to_number(roll),10) from student_t;
+
+ROLL                 COALESCE(MARKS,TO_NUMBER(ROLL),10)
+-------------------- ----------------------------------
+1                                                     1
+2                                                     2
+3                                                    98
+4                                                     5
+
+SQL> select * from student_t;
+
+ROLL                 NAME                 ADDRESS                   MARKS
+-------------------- -------------------- -------------------- ----------
+1                    Tufail               Chennai
+2                    Amit                 Chennai
+3                    Tarun                Chennai                      98
+4                    Vinay                Chennai                       5
+
+ select address, sum(marks) from student_t;
+
+SUM(MARKS)
+----------
+       103
+
+ select address, sum(marks) from student_t group by address;
+
+ADDRESS              SUM(MARKS)
+-------------------- ----------
+Mumbai                        5
+Chennai                      98
+
+select address, sum(marks) from student_t
+  2  group by address having address='Chennai';
+
+ADDRESS              SUM(MARKS)
+-------------------- ----------
+Chennai                      98
+
+SQL> CREATE TABLE Student1
+  2  (
+  3  Roll varchar(10) primary key,
+  4  Name varchar(20) not null,
+  5  Address varchar(20) check (Address in ('Chennai','Mumbai','Kolkata')),
+  6  Marks number check (Marks between 10 and 100)
+  7  );
+
+Table created.
+
+SQL> insert into Student1 values ('1','A','Mumbai',98);
+
+1 row created.
+
+CREATE TABLE loan_payment
+  2  (
+  3  Loanno number(4) CONSTRAINT myloanconstraint PRIMARY KEY,
+  4  loan_status varchar(10) CONSTRAINT loanstatysconstraint CHECK (loan_status = upper(loan_status)),
+  5  loan_amount number(10) not null,
+  6  update_date date default sysdate,
+  7  product_key varchar2(5)
+  8  );
+
+ insert into loan_payment values(1,'APPROVED', 8000, default, 'P001');
+
+1 row created.
+
+SQL> insert into loan_payment values(1,'approved', 8000, default, 'P001');
+insert into loan_payment values(1,'approved', 8000, default, 'P001')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.LOANSTATYSCONSTRAINT) violated

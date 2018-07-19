@@ -1,0 +1,223 @@
+Example for foreign key:
+create table AB_emp 
+(
+	emp_no numeric(13) primary key,
+	empname varchar2(20) not null,
+	salary numeric(8,2),
+	designation varchar2(20),
+	dept_no numeric(3)
+);
+create table AB2_dept
+(
+	dept_no numeric(3) primary key,
+	dept_name varchar2(20),
+	location varchar2(20) not null
+);
+insert into AB_emp values(1,'Anu',98000,'Consultant',009);
+alter table AB_emp add constraint myfk_1 foreign key(dept_no) references AB2_dept(dept_no);
+
+alter table AB_emp add constraint myfk_1 foreign key(dept_no) references AB2_dept(dept_no)
+                                  *
+ERROR at line 1: // only whatever is in dept_no of dept table can be in dept_no of emp 
+ORA-02298: cannot validate (SCOTT.MYFK_1) - parent keys not found
+
+SQL> insert into AB2_dept values(009,'HR','Bangalore');
+
+1 row created.
+
+SQL> alter table AB_emp add constraint myfk_1 foreign key(dept_no) references AB2_dept(dept_no);
+
+Table altered.
+
+insert into AB_emp values(2,'Anu',98000,'Consultant',008);
+insert into AB_emp values(2,'Anu',98000,'Consultant',008)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.MYFK_1) violated - parent key not found
+______________________________________________________________________________
+
+create table supplier //parent table
+(	supplier_id numeric(10) not null,
+	suuplier_name varchar2(50) not null,
+	contact_name varchar2(50),
+	constraint supplier_pk primary key (supplier_id)
+);
+create table products //child table
+(	product_id numeric(10) not null,
+	supplier_id numeric(10) not null,
+	CONSTRAINT fk_supplier
+	FOREIGN KEY (supplier_id)
+	references supplier(supplier_id)
+);
+
+SQL> insert into supplier values (1,'a','aa');
+SQL> insert into supplier values (2,'b','bb');
+SQL> insert into products values('123', 3);
+insert into products values('123', 3)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.FK_SUPPLIER) violated - parent key not
+found
+
+SQL> insert into supplier values (1,'a','f');
+insert into supplier values (1,'a','f')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SUPPLIER_PK) violated
+_________________________________________________________
+--adding a column
+alter table student add email varchar2(20);
+
+--dropping a column
+alter table student drop column email;
+
+--adding constraint
+alter table student add constraint emailConstraint check (email in ('a','b','c'));
+
+--removing constraint
+alter table student drop constraint emailConstraint;
+_________________________________________________________
+create table section_t
+( section_id number(3) constraint s_id check (section_id>0),
+	section_name char(30) constraint s_name not null,
+	book_count number(6),
+	constraint sect_prime primary key (section_id)
+);
+create table book_t
+( isbn number(10) constraint b_isbn check (isbn between 1 and 2000),
+title varchar2(200) constraint b_title not null,
+author varchar2(50) constraint b_auth not null,
+lent_date date,
+returned_date date,
+times_lent number(6),
+section_id number(3),
+constraint book_prime primary key (isbn),
+constraint book_sect foreign key (section_id) references section_t(section_id)
+on delete cascade
+); //delete CASCADE ==> if the row is deleted in parent table, it gets deleted in child table
+
+insert into section_t values(1,'abc',78);
+insert into section_t values(2,'ffbc',65);
+insert into book_t values(1,'java','james', to_date('03/03/09','mm/dd/yy'), to_date('03/15/09','mm/dd/yy'),10,1);
+delete from section_t where section_id=1; //row in book_t with id=1 also gets deleted (beacuse cascade)
+SQL> select * from book_t;
+no rows selected
+_________________________________________________________________________
+SUB QUERIES:
+create table stu_d
+(	roll number(20),
+	name varchar(20)
+);
+create table fees_d
+(
+	roll number(20),
+	amount number(10)
+);
+insert into stu_d values (&roll,'&name');
+select * from stu_d;
+      ROLL NAME
+---------- --------------------
+        12 ks
+        13 jj
+        14 ss
+SQL> select *from fees_d;
+
+      ROLL     AMOUNT
+---------- ----------
+        12        900
+        13        800
+        14        800
+
+SQL> select name from stu_d where roll=(select roll from fees_d where amount=900);
+
+NAME
+--------------------
+ks
+
+SQL> select name from stu_d where roll=(select roll from fees_d where amount=800);
+select name from stu_d where roll=(select roll from fees_d where amount=800)
+                                   *
+ERROR at line 1:
+ORA-01427: single-row subquery returns more than one row // with = only one result can be returned
+
+SQL> select name from stu_d where roll in (select roll from fees_d where amount=800);
+//to get return multiple values use 'in'
+NAME
+--------------------
+jj
+ss
+______________________________________________________
+CORRELATED SUBQUERIES
+
+create table emp100
+(	deptno number,
+	salary number
+);
+insert into emp100 values(&deptno,&salary);
+SQL> select * from emp100;
+
+    DEPTNO     SALARY
+---------- ----------
+         1         10
+         1         20
+        30         30
+         1         30
+         2        100
+         2        200
+delete from emp100 a where salary = (select max(salary) from emp100 b where a.deptno=b.deptno);
+SQL> select * from emp100;
+
+    DEPTNO     SALARY
+---------- ----------
+         1         10
+         1         20
+         2        100
+____________________________________________________
+select roll,name from stu_d where roll> any(select roll from stu_d);
+
+      ROLL NAME
+---------- --------------------
+        14 ss
+        13 jj
+
+select roll,name from stu_d where roll> all(select roll from stu_d);
+no rows selected
+______________________________________________________
+JOINS
+
+create table Suppliers
+(	supplier_id varchar(20),
+	supplier_name varchar(20)
+);
+create table Orders
+(	order_id varchar(20),
+	supplier_id varchar(20),
+	order_date date
+);
+insert into Suppliers values('10000','IBM');
+insert into Suppliers values('10001','Hewlett Packard');
+insert into Suppliers values('10002','Microsoft');
+insert into Suppliers values('10003','TCS');
+
+insert into Orders values('1','10000',to_date('3/3/09','mm/dd/yy'));
+insert into Orders values('2','10000',to_date('7/5/10','mm/dd/yy'));
+insert into Orders values('3','10001',to_date('12/8/10','mm/dd/yy'));
+
+SQL> select order_id,supplier_name from Orders, Suppliers where suppliers.supplier_id = orders.supplier_id;
+//equi join
+ORDER_ID             SUPPLIER_NAME
+-------------------- --------------------
+2                    IBM
+1                    IBM
+3                    Hewlett Packard
+
+SQL> select order_id,supplier_name from Orders, Suppliers where suppliers.supplier_id = orders.supplier_id(+);
+OR // both are same
+select order_id,supplier_name from Orders RIGHT OUTER JOIN Suppliers on suppliers.supplier_id = orders.supplier_id;
+ORDER_ID             SUPPLIER_NAME
+-------------------- --------------------
+1                    IBM
+2                    IBM
+3                    Hewlett Packard
+                     Microsoft
+                     TCS
