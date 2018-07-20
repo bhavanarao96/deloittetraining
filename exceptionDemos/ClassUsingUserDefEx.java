@@ -1,5 +1,6 @@
 package exceptionDemos;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ClassUsingUserDefEx {
@@ -13,6 +14,9 @@ public class ClassUsingUserDefEx {
 				throw new InvalidAgeException("Enter valid age");
 		} 
 		catch (InvalidAgeException e) {
+			System.out.println(e.getMessage());
+		}
+		catch (InputMismatchException e) {
 			System.out.println(e.getMessage());
 		}
 		System.out.println("your age is "+ age);
