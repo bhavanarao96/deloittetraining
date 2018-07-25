@@ -12,16 +12,22 @@ public class Demo5 {
 				new BufferedWriter(new FileWriter(new File("C:\\mydata\\data.txt")));
 		System.out.println("Enter name");
 		String name = reader.readLine();
-		//writer.write("Name: "+name);
 		System.out.println("Enter age");
 		int age = Integer.parseInt(reader.readLine());
-		//writer.write(" Age: "+age+"  \n");
 		System.out.println("Enter price");
 		int price = Integer.parseInt(reader.readLine());
-		//writer.write("Price: "+price);
-		w.write(name);
-		w.write(age);
-		w.write(price);
+		
+		FileOutputStream writer = new FileOutputStream("C:\\mydata\\data.txt");
+		BufferedOutputStream bs = new BufferedOutputStream(writer);
+		DataOutputStream ds = new DataOutputStream(bs);
+		ds.writeUTF(name);
+		ds.writeInt(age);
+		ds.writeInt(price);
+		ds.close();
+		bs.close();
+		//w.write(name);
+		//w.write(age);
+		//w.write(price);
 		
 		w.close();
 		reader.close();
