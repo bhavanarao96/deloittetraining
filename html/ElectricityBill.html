@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Electricity Bill</title>
+<script type="text/javascript">
+
+function getBill() {
+	var bill = document.getElementById("bill").value;
+	var date = new Date();
+	
+	if (date.getDate() > 15) {
+		var newbill = parseInt(bill,10) + parseInt((50*(date.getDate() - 15)),10);
+	}
+	else
+		var newbill = bill;
+	//msg.innerHTML="Date "+newbill);
+	alert("Your bill amount is " + newbill);
+}
+</script>
+</head>
+<body>
+<h1>Electricity Bill</h1>
+
+<table>
+<tr><td> Bill Amount :</td><td> <input type = "text" id=bill name = "customerId" ><td/><tr/>
+<tr><td> Credit Card number : </td><td><input type = "text" id=ccn name = "customerName"></td></tr>
+<tr><td><input type="button" value="Go" onclick="getBill()"></td></tr>
+</table>
+<br>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script type="text/javascript">
+function validateCustomerInfo()
+{
+	var cN = document.getElementById("cName").value;
+	//var cN = document.loginform.Element[0].value;
+	var cId = document.getElementById("cId").value;
+	var msg = document.getElementById("msg");
+	if (cN.length==0) {
+		msg.innerHTML="Please enter your name";
+		return false;
+	}
+	if (cId.length==0) {
+		msg.innerHTML="Please enter your customer id";
+		return false;
+	}
+	else {
+		msg.innerHTML="Welcome "+cN;
+	}
+}
+	
+</script>
+</head>
+<body>
+<form name = "loginform" action="success.html" onsubmit="return validateCustomerInfo()">
+<table>
+<tr><td> Customer ID :</td><td> <input type = "text" id=cId name = "customerId"><td/><tr/>
+<tr><td>Customer Name: </td><td><input type = "text" id=cName name = "customerName"></td></tr>
+<tr><td><input type="submit" value="Go" ></td></tr>
+</table>
+</form>
+</body>
+<div id="msg"></div>
+</html>

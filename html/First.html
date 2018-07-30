@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type= "text/javascript">
+
+	document.write("<h1>Welcome to JS</h1>");
+	var msg = document.getElementById("div1");
+	function display() {
+		
+		var r = confirm("are you sure you want to logout");
+		if(r) {
+			div1.innerHTML="logged out";
+		}
+		else {
+			div1.innerHTML="welcome back";
+		}
+	}
+	function askinput() {
+		
+		var name = prompt("enter name");
+		if (name.length==0) {
+			alert("Enter your name");
+		}
+		else {
+			div1.innerHTML="Welcome "+name;
+		}
+		
+	}
+</script>
+</head>
+<body>
+<div id = "div1">Hello</div><br/><br/>
+<input type="button" value="Login" onclick="askinput()">
+<input type="button" value="Logout" onclick="display()">
+	
+</body>
+
+</html>

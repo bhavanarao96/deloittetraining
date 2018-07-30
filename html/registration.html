@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="myscript.js"></script>
+<meta http-equiv ="refresh" content = "1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Customer details</h1>
+<form name="customerForm" method = "get" action = "products.html">
+<table>
+<tr><td> Customer ID :</td><td> <input type = "text" name = "customerId"><td/><tr/>
+<tr><td>Customer Name: </td><td><input type = "text" name = "customerName"></td></tr>
+<tr><td>Customer Address: </td><td> <input type = "text" name = "customerAddress"></td></tr>
+<tr><td>Bill Amount: </td><td> <input type = "text" name = "billAmount"></td></tr>
+
+<tr><td>Complete Address with pin code:</td>
+<td><textarea rows="3" cols="20"></textarea></td></tr>
+ 
+<tr><td>Gender</td>
+
+<td><input type="radio" name = "gender" value = "1">Male
+<input type="radio" name = "gender" value = "2">Female</td></tr>
+
+<tr><td>Interested in: </td>
+<td><input type="checkbox" name = "interest" value = "Shirts">Shirts
+<input type="checkbox" name = "interest" value = "Socks">Socks
+<input type="checkbox" name = "interest" value = "Shoes">Shoes
+<input type="checkbox" name = "interest" value = "Tie">Tie</td>
+</tr>
+<tr><td>From City:</td>
+<td>
+<select name = "city">
+	<option value = "bangalore">Bangalore</option>
+	<option value = "delhi">delhi</option>
+	<option value = "mumbai">mumbai</option>
+	<option value = "chennai">chennai</option>
+</select>
+</td></tr>
+
+<tr><td><input type = "submit" value = "Products">
+<input type = "reset" value = "clear"></td></tr>
+
+</table>
+
+</form>
+</body>
+</html>
