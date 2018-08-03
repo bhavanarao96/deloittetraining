@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<!-- <script type="text/javascript">
+function validateCustomerInfo()
+{
+	var cN = document.getElementById("cName").value;
+	//var cN = document.loginform.Element[0].value;
+	var cId = document.getElementById("cId").value;
+	var msg = document.getElementById("msg");
+	if (cN.length==0) {
+		msg.innerHTML="Please enter your name";
+		return false;
+	}
+	if (cId.length==0) {
+		msg.innerHTML="Please enter your customer id";
+		return false;
+	}
+	else {
+		msg.innerHTML="Welcome "+cN;
+	}
+}
+	 </script>
+	 
+	 -->
+</head>
+<body>
+<form action="CustomerSave">
+<table>
+<tr><td> Customer ID :</td><td> <input type = "text" name = "customerId"></td></tr>
+<tr><td>Customer Name: </td><td><input type = "text"  name = "customerName"></td></tr>
+<tr><td> Customer Address :</td><td> <input type = "text"  name = "customerAddress"><td/><tr/>
+<tr><td>Bill Amount: </td><td><input type = "text" name = "billAmount"></td></tr>
+<tr><td><input type="submit" value="Save Customer Info" ></td></tr>
+</table>
+</form>
+</body>
+<!-- <div id="msg"></div> -->
+</html>
